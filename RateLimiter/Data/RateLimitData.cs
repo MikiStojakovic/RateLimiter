@@ -16,7 +16,7 @@ namespace RateLimiter.Data
         [JsonProperty(PropertyName = "LastResponse")]
         public DateTime LastResponseTime { get; private set; }
         public int NumberOfRequests { get; private set; }
-         public bool IsMaximumRequestTrasholdReached(int timeWindowInSeconds, int maxRequests)
-            => DateTime.UtcNow < LastResponseTime.AddSeconds(timeWindowInSeconds) && NumberOfRequests == maxRequests;
+         public bool IsMaximumRequestTrasholdReached(int timeInMiliseconds, int maxRequests)
+            => DateTime.UtcNow < LastResponseTime.AddMilliseconds(timeInMiliseconds) && NumberOfRequests == maxRequests;
     }
 }

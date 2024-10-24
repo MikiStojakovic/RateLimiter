@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Distributed;
+using RateLimiter.Extensions;
 
 namespace RateLimiter.Middleware
 {
@@ -16,6 +17,12 @@ namespace RateLimiter.Middleware
 
         public async Task InvokeAsync(HttpContext context)
         {
+            if (!context.HasRateLimit(out var rateLimitAttribute))
+            {
+                await _next(context);
+                return;
+            }
+
             await _next(context);
         }
     }
