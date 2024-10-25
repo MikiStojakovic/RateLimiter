@@ -17,7 +17,7 @@ namespace RateLimiter.Middleware
 
         public async Task InvokeAsync(HttpContext context)
         {
-            if (!context.HasRateLimit(out var rateLimitAttribute))
+            if (!context.HasRateLimit())
             {
                 await _next(context);
                 return;

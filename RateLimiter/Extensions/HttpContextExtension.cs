@@ -5,10 +5,16 @@ namespace RateLimiter.Extensions
 {
     public static class HttpContextExtension
     {
-        public static bool HasRateLimit(this HttpContext context, out RateLimitAttribute? rateLimitAttribute)
+        public static bool HasRateLimit(this HttpContext context)
         {
-            rateLimitAttribute = context.GetEndpoint()?.Metadata.GetMetadata<RateLimitAttribute>();
+            var rateLimitAttribute = context.GetRateLimitAttributeData();
             return rateLimitAttribute is not null;
         }
+        public static RateLimitAttribute? GetRateLimitAttributeData(this HttpContext context)
+        {
+            return context.GetEndpoint()?.Metadata.GetMetadata<RateLimitAttribute>();
+        }
+        public static string GetCustomerKey(this HttpContext context)
+        => $"{context.Request.Path}_{context.Connection.RemoteIpAddress}";
     }
 }
