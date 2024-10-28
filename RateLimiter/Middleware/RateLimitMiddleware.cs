@@ -23,6 +23,7 @@ namespace RateLimiter.Middleware
                 return;
             }
 
+            var rateLimitDataData = await _distributedCache.GetCustomerRateLimitDataFromContextAsync(context);
             await _next(context);
         }
     }
