@@ -22,5 +22,16 @@ namespace RateLimiter.Extensions
 
                 return JsonConvert.DeserializeObject<RateLimitData>(result);
             }
+
+         public async static Task SetCacheValueAsync(
+            this IDistributedCache cache,
+            string key,
+            RateLimitData? customerRequests,
+            CancellationToken cancellation = default)
+            {
+                customerRequests ??= new RateLimitData(DateTime.UtcNow, 1);
+
+                await cache.SetStringAsync(key, JsonConvert.SerializeObject(customerRequests), cancellation);
+            }
     }
 }
