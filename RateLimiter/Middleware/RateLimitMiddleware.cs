@@ -24,6 +24,8 @@ namespace RateLimiter.Middleware
             }
 
             var rateLimitDataData = await _distributedCache.GetCustomerRateLimitDataFromContextAsync(context);
+            await _distributedCache.SetCacheValueAsync(context.GetCustomerKey(), rateLimitDataData);
+
             await _next(context);
         }
     }
