@@ -33,6 +33,8 @@ namespace RateLimiter.Middleware
                     context.Response.StatusCode = (int)HttpStatusCode.TooManyRequests;
                     return;
                 }
+
+                rateLimitDataData.IncreaseRequests(rateLimitAttribute!.MaxRequestsPerTimePeriod);
             }
 
             await _distributedCache.SetCacheValueAsync(context.GetCustomerKey(), rateLimitDataData);
