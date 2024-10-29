@@ -18,5 +18,14 @@ namespace RateLimiter.Data
         public int NumberOfRequests { get; private set; }
          public bool IsMaximumRequestTrasholdReached(int timeInMiliseconds, int maxRequests)
             => DateTime.UtcNow < LastResponseTime.AddMilliseconds(timeInMiliseconds) && NumberOfRequests == maxRequests;
+        public void IncreaseRequests(int maxRequests)
+        {
+            LastResponseTime = DateTime.UtcNow;
+
+            if (NumberOfRequests == maxRequests)
+                NumberOfRequests = 1;
+            else
+                NumberOfRequests++;
+        }
     }
 }
